@@ -74,7 +74,7 @@ macro_rules! znmul {
 
 #[cfg(test)]
 mod tests {
-    use crate::group::Group;
+    use crate::group::{Group, GroupElement, GroupOrder};
 
     use super::{ZnMul, ZnMulElement};
 
@@ -83,5 +83,10 @@ mod tests {
         let id = ZnMul::<4>::identity();
         assert!(znmul!(2, 4).is_none());
         assert!(znmul!(1, 4).is_some());
+        assert!(znmul!(3, 4).is_some());
+
+        assert_eq!(ZnMul::<4>::order(), 2);
+        assert_eq!(znmul!(1, 4).unwrap().order(), 1);
+        assert_eq!(znmul!(3, 4).unwrap().order(), 2);
     }
 }

@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use group::{GroupElement, GroupOrder, ZnMul, ZnMulElement};
 mod const_utils;
 mod group;
 mod utils;
@@ -14,27 +15,47 @@ fn main() {
 
 #[component]
 fn App() -> Element {
+    let mut n = use_signal(|| 2usize);
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MAIN_CSS } document::Link { rel: "stylesheet", href: TAILWIND_CSS }
-        Hero {}
+
+        input {
+          type: "number",
+          value: n,
+          oninput: move |e| {
+            if let Ok(num) = e.value().parse::<usize>() {
+              n.set(num);
+            }
+          }
+        }
+
+        Group { n }
 
     }
 }
 
 #[component]
-pub fn Hero() -> Element {
+pub fn Group(n: ReadOnlySignal<usize>) -> Element {
+    const N: usize = 32usize;
     rsx! {
         div {
-            id: "hero",
-            img { src: HEADER_SVG, id: "header" }
-            div { id: "links",
-                a { href: "https://dioxuslabs.com/learn/0.6/", "📚 Learn Dioxus" }
-                a { href: "https://dioxuslabs.com/awesome", "🚀 Awesome Dioxus" }
-                a { href: "https://github.com/dioxus-community/", "📡 Community Libraries" }
-                a { href: "https://github.com/DioxusLabs/sdk", "⚙️ Dioxus Development Kit" }
-                a { href: "https://marketplace.visualstudio.com/items?itemName=DioxusLabs.dioxus", "💫 VSCode Extension" }
-                a { href: "https://discord.gg/XgGxMSkvUM", "👋 Community Discord" }
+            h1 {
+              "Z mod {N} Z"
+            }
+            table {
+              tr {
+                th { "Element" }
+                th { "Order" }
+              }
+              for i in 1..N  {
+                if ZnMulElement::<N>::new(i).is_some() {
+                  tr {
+                    td { "{i}" }
+                    td { "{ZnMulElement::<N>::new(i).unwrap().order()}" }
+                  }
+                }
+              }
             }
         }
     }
