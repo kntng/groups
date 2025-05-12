@@ -1,8 +1,5 @@
 use dioxus::prelude::*;
 use group::rt::{Finite, Group, GroupElement, ZnMul, ZnMulElement};
-mod const_utils;
-mod group;
-mod utils;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/main.css");

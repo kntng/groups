@@ -1,6 +1,6 @@
 use crate::utils::{euler_totient, mod_inv};
 
-use crate::group::ct::{Finite, Group, GroupElement};
+use crate::ct::{Finite, Group, GroupElement};
 
 /// An element of Z/N
 #[derive(Clone, Debug, PartialEq, Eq)]
