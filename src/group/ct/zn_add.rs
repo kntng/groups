@@ -1,4 +1,4 @@
-use super::{Group, GroupElement};
+use crate::group::ct::{Group, GroupElement};
 
 /// An element of Z/N
 #[derive(Clone, Debug, PartialEq, Eq)]

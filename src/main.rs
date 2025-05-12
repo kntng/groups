@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use group::{Finite, GroupElement, ZnMul, ZnMulElement};
+use group::rt::{Finite, Group, GroupElement, ZnMul, ZnMulElement};
 mod const_utils;
 mod group;
 mod utils;
@@ -30,29 +30,29 @@ fn App() -> Element {
           }
         }
 
-        Group { n }
+        GroupView { n }
 
     }
 }
 
 #[component]
-pub fn Group(n: ReadOnlySignal<usize>) -> Element {
-    const N: usize = 32usize;
+pub fn GroupView(n: ReadOnlySignal<usize>) -> Element {
+    let g = ZnMul::new(n());
     rsx! {
         div {
             h1 {
-              "Z mod {N} Z"
+              "Z mod {n} Z"
             }
             table {
               tr {
                 th { "Element" }
                 th { "Order" }
               }
-              for i in 1..N  {
-                if ZnMulElement::<N>::new(i).is_some() {
+              for i in 1..n()  {
+                if g.element(i).is_some() {
                   tr {
                     td { "{i}" }
-                    td { "{ZnMulElement::<N>::new(i).unwrap().order()}" }
+                    td { "{g.element(i).unwrap().order()}" }
                   }
                 }
               }

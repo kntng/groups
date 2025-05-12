@@ -1,6 +1,6 @@
 use crate::utils::{euler_totient, mod_inv};
 
-use super::{Finite, Group, GroupElement};
+use crate::group::ct::{Finite, Group, GroupElement};
 
 /// An element of Z/N
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -74,7 +74,7 @@ macro_rules! znmul {
 
 #[cfg(test)]
 mod tests {
-    use crate::group::{Finite, Group, GroupElement};
+    use crate::group::ct::{Finite, Group, GroupElement};
 
     use super::{ZnMul, ZnMulElement};
 
