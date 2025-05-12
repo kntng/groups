@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use group::{GroupElement, GroupOrder, ZnMul, ZnMulElement};
+use group::{Finite, GroupElement, ZnMul, ZnMulElement};
 mod const_utils;
 mod group;
 mod utils;

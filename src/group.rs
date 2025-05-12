@@ -21,7 +21,7 @@ pub trait GroupElement {
 
     fn order(&self) -> usize
     where
-        Self::Group: GroupOrder,
+        Self::Group: Finite,
         Self: Clone + PartialEq,
     {
         let mut pow = self.clone();
@@ -37,6 +37,6 @@ pub trait GroupElement {
 }
 
 /// Order of a `Group`
-pub trait GroupOrder: Group {
+pub trait Finite: Group {
     fn order() -> usize;
 }

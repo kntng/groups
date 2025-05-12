@@ -1,6 +1,6 @@
 use crate::utils::{euler_totient, mod_inv};
 
-use super::{Group, GroupElement, GroupOrder};
+use super::{Finite, Group, GroupElement};
 
 /// An element of Z/N
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -39,7 +39,7 @@ impl<const N: usize> Group for ZnMul<N> {
     }
 }
 
-impl<const N: usize> GroupOrder for ZnMul<N> {
+impl<const N: usize> Finite for ZnMul<N> {
     fn order() -> usize {
         euler_totient(N)
     }
@@ -74,7 +74,7 @@ macro_rules! znmul {
 
 #[cfg(test)]
 mod tests {
-    use crate::group::{Group, GroupElement, GroupOrder};
+    use crate::group::{Finite, Group, GroupElement};
 
     use super::{ZnMul, ZnMulElement};
 
