@@ -7,3 +7,14 @@ edition = "2024"
 
 [lib]
 path = "lib.rs"
+
+[[bench]]
+name = "ct"
+harness = false
+
+[[bench]]
+name = "rt"
+harness = false
+
+[dev-dependencies]
+criterion = "0.5.1"

@@ -44,16 +44,32 @@ pub fn GroupView(n: ReadOnlySignal<usize>) -> Element {
               tr {
                 th { "Element" }
                 th { "Order" }
+                th { "Subgroup" }
               }
-              for i in 1..n()  {
+              for i in 1..n() {
                 if g.element(i).is_some() {
-                  tr {
-                    td { "{i}" }
-                    td { "{g.element(i).unwrap().order()}" }
-                  }
+                  GroupElementView { i, g }
                 }
               }
             }
         }
+    }
+}
+
+#[component]
+pub fn GroupElementView(i: usize, g: ZnMul) -> Element {
+    let element = g.element(i).unwrap();
+    let subgroup = element
+        .subgroup()
+        .iter()
+        .map(|e| e.value.to_string())
+        .collect::<Vec<String>>()
+        .join(", ");
+    rsx! {
+      tr {
+        td { "{element.value}" }
+        td { "{element.order()}" }
+        td { "{ subgroup }" }
+      }
     }
 }

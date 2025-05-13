@@ -3,7 +3,7 @@ use crate::utils::{euler_totient, mod_inv};
 use crate::rt::{Finite, Group, GroupElement};
 
 /// An element of Z/N
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct ZnMulElement<'a> {
     pub value: usize,
     group: &'a ZnMul,
@@ -27,6 +27,13 @@ impl<'a> GroupElement<'a> for ZnMulElement<'a> {
         }
         unreachable!()
     }
+
+    fn subgroup(&self) -> Vec<Self>
+    where
+        Self: Sized,
+    {
+        self.group.subgroup(self)
+    }
 }
 
 impl<'a> ZnMulElement<'a> {
@@ -42,7 +49,7 @@ impl<'a> ZnMulElement<'a> {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct ZnMul {
     pub n: usize,
 }
@@ -73,6 +80,16 @@ impl Group for ZnMul {
 
     fn element<'a>(&'a self, a: usize) -> Option<Self::Element<'a>> {
         Self::Element::new(a, self)
+    }
+
+    fn subgroup<'a>(&'a self, a: &Self::Element<'a>) -> Vec<Self::Element<'a>> {
+        let mut subgroup = Vec::with_capacity(a.order());
+        let mut pow = a.clone();
+        for _ in 1..=a.order() {
+            subgroup.push(pow.clone());
+            pow = self.op(&pow, a);
+        }
+        subgroup
     }
 }
 
