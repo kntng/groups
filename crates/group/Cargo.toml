@@ -9,11 +9,7 @@ edition = "2024"
 path = "lib.rs"
 
 [[bench]]
-name = "ct"
-harness = false
-
-[[bench]]
-name = "rt"
+name = "totient"
 harness = false
 
 [dev-dependencies]

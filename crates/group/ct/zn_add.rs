@@ -52,14 +52,3 @@ impl<const N: usize> std::ops::Neg for ZnElement<N> {
         Zn::<N>::inv(&self)
     }
 }
-
-/// Macro to create Z/N elements
-/// ```rust
-/// let el = zn!(12, 7);
-/// assert_eq!(el.value, 5)
-/// ```
-macro_rules! zn {
-    ($x:expr, $n:literal) => {
-        ZnElement::<$n>::new($x)
-    };
-}

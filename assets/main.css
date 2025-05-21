@@ -1,0 +1,112 @@
+:root {
+  --color-accent: oklch(0.77 0.1113 259.88);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: white;
+  color: black;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 2em;
+}
+
+.button {
+  background-color: var(--color-accent);
+  border: 3px solid black;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 black;
+  cursor: pointer;
+  outline: none;
+  padding: 0.5rem;
+  transition: all 0.1s ease-in-out
+}
+
+.button:hover {
+  box-shadow: 2px 2px 0 black;
+  transform: translate(2px, 2px);
+}
+
+.button:focus {
+  box-shadow: 4px 4px 0 var(--color-accent);
+
+  &:hover {
+    box-shadow: 2px 2px 0 var(--color-accent);
+    transform: translate(2px, 2px);
+  }
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+  background-color: #fff;
+  border: 3px solid black;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 black;
+  outline: none;
+  padding: 0.5rem;
+  transition: box-shadow 0.1s ease-in-out;
+}
+
+input:focus {
+  box-shadow: 4px 4px 0 var(--color-accent);
+}
+
+
+/* Remove up/down buttons on number input */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.tabs {
+  border: 3px solid black;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab {
+  border: none;
+  border-right: 3px solid black;
+
+  &:first-child {
+    border-top-left-radius: 8px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 8px;
+  }
+
+  cursor: pointer;
+  outline: none;
+  padding: 0.5rem;
+
+  &[aria-selected="true"] {
+    background-color: var(--color-accent);
+  }
+}
+
+.tablist {
+  border-bottom: 3px solid black;
+  width: 100%;
+}
+
+.tabpanel {
+  padding: 8px;
+}

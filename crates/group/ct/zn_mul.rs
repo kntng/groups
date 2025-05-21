@@ -61,32 +61,21 @@ impl<const N: usize> std::ops::Neg for ZnMulElement<N> {
     }
 }
 
-/// Macro to create (Z/N) multiplicative elements
-/// ```rust
-/// let el = znmul!(7, 8);
-/// assert_eq!(el.value, 7)
-/// ```
-macro_rules! znmul {
-    ($x:expr, $n:literal) => {
-        ZnMulElement::<$n>::new($x)
-    };
-}
-
 #[cfg(test)]
 mod tests {
-    use crate::group::ct::{Finite, Group, GroupElement};
+    use crate::ct::{Finite, Group, GroupElement};
 
     use super::{ZnMul, ZnMulElement};
 
     #[test]
     fn z_4() {
         let id = ZnMul::<4>::identity();
-        assert!(znmul!(2, 4).is_none());
-        assert!(znmul!(1, 4).is_some());
-        assert!(znmul!(3, 4).is_some());
+        assert!(ZnMulElement::<4>::new(2).is_none());
+        assert!(ZnMulElement::<4>::new(1).is_some());
+        assert!(ZnMulElement::<4>::new(3).is_some());
 
         assert_eq!(ZnMul::<4>::order(), 2);
-        assert_eq!(znmul!(1, 4).unwrap().order(), 1);
-        assert_eq!(znmul!(3, 4).unwrap().order(), 2);
+        assert_eq!(ZnMulElement::<4>::new(1).unwrap().order(), 1);
+        assert_eq!(ZnMulElement::<4>::new(3).unwrap().order(), 2);
     }
 }

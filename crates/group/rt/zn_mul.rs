@@ -58,6 +58,15 @@ impl ZnMul {
     pub fn new(n: usize) -> Self {
         Self { n }
     }
+
+    pub fn iter(&self) -> ZnMulIterator<'_> {
+        ZnMulIterator {
+            candidate: 1,
+            group: self,
+            yielded: 0,
+            total: self.order(),
+        }
+    }
 }
 
 impl Group for ZnMul {
@@ -99,6 +108,40 @@ impl Finite for ZnMul {
     }
 }
 
+/// An iterator over the elements of a Z/N multiplicative group
+pub struct ZnMulIterator<'a> {
+    candidate: usize,
+    group: &'a ZnMul,
+    // State for ExactSizeIterator
+    yielded: usize,
+    total: usize,
+}
+
+impl<'a> std::iter::Iterator for ZnMulIterator<'a>
+where
+    Self: 'a,
+{
+    type Item = ZnMulElement<'a>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        while self.candidate < self.group.n {
+            if let Some(el) = self.group.element(self.candidate) {
+                self.candidate += 1;
+                self.yielded += 1;
+                return Some(el);
+            }
+            self.candidate += 1;
+        }
+        None
+    }
+}
+
+impl<'a> ExactSizeIterator for ZnMulIterator<'a> {
+    fn len(&self) -> usize {
+        self.total - self.yielded
+    }
+}
+
 impl<'a> std::ops::Mul for ZnMulElement<'a> {
     type Output = Self;
 
@@ -117,9 +160,10 @@ impl<'a> std::ops::Neg for ZnMulElement<'a> {
 
 /// Macro to create (Z/N) multiplicative elements
 /// ```rust
-/// let el = znmul!(7, 8);
-/// assert_eq!(el.value, 7)
+/// use group::{znmul, rt::{ZnMul, Group}};
+/// assert_eq!(znmul!(7, 8).unwrap().value, 7)
 /// ```
+#[macro_export]
 macro_rules! znmul {
     ($x:expr, $n:expr) => {
         ZnMul::new($n).element($x)
@@ -128,7 +172,7 @@ macro_rules! znmul {
 
 #[cfg(test)]
 mod tests {
-    use crate::group::rt::{Finite, Group, GroupElement};
+    use crate::rt::{Finite, Group, GroupElement};
 
     use super::{ZnMul, ZnMulElement};
 
@@ -143,5 +187,8 @@ mod tests {
         assert_eq!(g.order(), 2);
         assert_eq!(znmul!(1, 4).unwrap().order(), 1);
         assert_eq!(znmul!(3, 4).unwrap().order(), 2);
+
+        let elements: Vec<usize> = g.iter().map(|e| e.value).collect();
+        assert_eq!(elements, vec![1, 3]);
     }
 }

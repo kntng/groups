@@ -6,6 +6,8 @@ const MAIN_CSS: Asset = asset!("/assets/main.css");
 const HEADER_SVG: Asset = asset!("/assets/header.svg");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
+const PAGE_ITEMS: usize = 100;
+
 fn main() {
     dioxus::launch(App);
 }
@@ -35,6 +37,7 @@ fn App() -> Element {
 #[component]
 pub fn GroupView(n: ReadOnlySignal<usize>) -> Element {
     let g = ZnMul::new(n());
+    let page = use_signal(|| 0usize);
     rsx! {
         div {
             h1 {
@@ -44,6 +47,7 @@ pub fn GroupView(n: ReadOnlySignal<usize>) -> Element {
               tr {
                 th { "Element" }
                 th { "Order" }
+                th { "Inverse" }
                 th { "Subgroup" }
               }
               for i in 1..n() {
@@ -57,6 +61,11 @@ pub fn GroupView(n: ReadOnlySignal<usize>) -> Element {
 }
 
 #[component]
+pub fn GroupElementPage(n: usize, g: ZnMul) -> Element {
+    rsx! {}
+}
+
+#[component]
 pub fn GroupElementView(i: usize, g: ZnMul) -> Element {
     let element = g.element(i).unwrap();
     let subgroup = element
@@ -66,10 +75,21 @@ pub fn GroupElementView(i: usize, g: ZnMul) -> Element {
         .collect::<Vec<String>>()
         .join(", ");
     rsx! {
-      tr {
-        td { "{element.value}" }
-        td { "{element.order()}" }
-        td { "{ subgroup }" }
+      if g.order() <= 1024 {
+        tr {
+          td { "{element.value}" }
+          td { "{element.order()}" }
+          td { "{g.inv(&element).value}" }
+          td { "{ subgroup }" }
+        }
+      }
+      else {
+        tr {
+          td { "{element.value}" }
+          td { "{element.order()}" }
+          td { "{g.inv(&element).value}" }
+          td { "Disabled" }
+        }
       }
     }
 }

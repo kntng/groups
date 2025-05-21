@@ -1,5 +1,5 @@
 /// Runs the Euclidean algorithm to compute gcd(a,b)
-pub(crate) fn euclidean(a: isize, b: isize) -> isize {
+pub fn euclidean(a: isize, b: isize) -> isize {
     let (mut a_, mut b_) = (a, b);
     while b_ != 0 {
         (a_, b_) = (b_, a_ % b_);
@@ -10,7 +10,7 @@ pub(crate) fn euclidean(a: isize, b: isize) -> isize {
 /// Runs the Extended Euclidean algorithm to compute
 /// $ax + by = gcd(a,b)$
 /// Returns (x, y, gcd(a,b))
-pub(crate) fn extended_euclidean(a: isize, b: isize) -> (isize, isize, isize) {
+pub fn extended_euclidean(a: isize, b: isize) -> (isize, isize, isize) {
     let (mut a_, mut b_) = (a, b);
     let (mut s, mut s_new) = (1, 0);
 
@@ -25,7 +25,7 @@ pub(crate) fn extended_euclidean(a: isize, b: isize) -> (isize, isize, isize) {
 }
 
 /// Computes the modular inverse of $a mod n$
-pub(crate) fn mod_inv(a: usize, n: usize) -> Option<usize> {
+pub fn mod_inv(a: usize, n: usize) -> Option<usize> {
     let n_ = n as isize;
     let (x, _, gcd) = extended_euclidean((a % n) as isize, n_);
     if gcd > 1 {
@@ -36,7 +36,7 @@ pub(crate) fn mod_inv(a: usize, n: usize) -> Option<usize> {
 }
 
 /// Computes Euler's totient/phi function
-pub(crate) fn euler_totient(n: usize) -> usize {
+pub fn euler_totient(n: usize) -> usize {
     let mut phi = n;
     let mut n_ = n;
     let mut p = 2;

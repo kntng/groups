@@ -1,6 +1,8 @@
-# Development
+# :eight_pointed_black_star: groups
 
-Your new bare-bones project includes minimal organization with a single `main.rs` file and a few assets.
+A simple app to visualize algebraic groups.
+
+## Building
 
 ```
 project/
@@ -31,4 +33,3 @@ To run for a different platform, use the `--platform platform` flag. E.g.
 ```bash
 dx serve --platform desktop
 ```
-

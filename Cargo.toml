@@ -1,8 +1,8 @@
 [package]
-name = "work"
+name = "groups"
 version = "0.1.0"
 authors = ["Kenneth Tang <kntng@kntng.dev>"]
-edition = "2021"
+edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
